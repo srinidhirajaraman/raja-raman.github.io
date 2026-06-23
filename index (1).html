@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rajaraman Sunderrajan | SAP EAM/WAM Architect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #07122A;
+      --navy-mid:   #0F2044;
+      --steel:      #1B3A6B;
+      --teal:       #00C2CB;
+      --teal-dim:   #007B85;
+      --gold:       #E8A84C;
+      --white:      #F4F7FC;
+      --muted:      #8DA4BF;
+      --card-bg:    #0D1E3A;
+      --border:     rgba(0,194,203,0.18);
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+      background: rgba(7,18,42,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 5vw 4rem;
+    }
+
+    /* animated hex grid background */
+    .hex-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(0,194,203,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 20% 70%, rgba(27,58,107,0.4) 0%, transparent 60%);
+    }
+    .hex-grid::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z' fill='none' stroke='rgba(0,194,203,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+      background-size: 56px 64px;
+      opacity: 1;
+      animation: hexDrift 20s linear infinite;
+    }
+    @keyframes hexDrift { from { background-position: 0 0; } to { background-position: 56px 64px; } }
+
+    .hero-inner {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .hero-text .eyebrow {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid var(--teal-dim);
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-text h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero-text h1 span { color: var(--teal); }
+    .hero-text .subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 460px;
+      margin-bottom: 2rem;
+    }
+    .hero-badges {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      margin-bottom: 2.4rem;
+    }
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: rgba(0,194,203,0.1);
+      border: 1px solid rgba(0,194,203,0.3);
+      color: var(--teal);
+      padding: 4px 10px;
+      border-radius: 3px;
+    }
+    .cta-row { display: flex; gap: 1rem; }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.5rem;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: all .2s;
+    }
+    .btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+    }
+    .btn-primary:hover { background: #00d9e4; }
+    .btn-outline {
+      border: 1px solid var(--steel);
+      color: var(--muted);
+    }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* profile picture placeholder */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .profile-frame {
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      border: 2px solid var(--teal-dim);
+      background: var(--card-bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.75rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 60px rgba(0,194,203,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-frame::before {
+      content: '';
+      position: absolute; inset: -2px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--teal), transparent 40%, var(--teal) 80%, transparent);
+      animation: spin 6s linear infinite;
+      z-index: -1;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .profile-icon {
+      width: 72px; height: 72px;
+      background: var(--steel);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .profile-icon svg { width: 40px; height: 40px; fill: var(--teal); }
+    .profile-frame p { text-align: center; padding: 0 2rem; line-height: 1.5; }
+
+    /* stats bar */
+    .stats-bar {
+      position: relative; z-index: 1;
+      display: flex; gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-top: 4rem;
+      max-width: 1100px; width: 100%;
+      background: var(--card-bg);
+      overflow: hidden;
+    }
+    .stat {
+      flex: 1;
+      padding: 1.5rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 5vw; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 3rem;
+      max-width: 540px;
+    }
+    .section-title em { color: var(--teal); font-style: normal; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--navy-mid); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+      font-size: 0.95rem;
+    }
+    .about-text p strong { color: var(--white); font-weight: 500; }
+    .skills-col {}
+    .skills-group { margin-bottom: 2rem; }
+    .skills-group-title {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.9rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .skill-tag {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px;
+      color: var(--muted);
+    }
+    .cert-list { list-style: none; }
+    .cert-list li {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .cert-list li:last-child { border-bottom: none; }
+    .cert-list li::before {
+      content: '✓';
+      color: var(--teal);
+      font-size: 0.7rem;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ── PROJECTS ── */
+    #projects {}
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.75rem;
+      transition: border-color .25s, transform .25s;
+      position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--teal), transparent);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .project-card:hover { border-color: var(--teal-dim); transform: translateY(-3px); }
+    .project-card:hover::before { opacity: 1; }
+    .project-client {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.85rem;
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .project-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border: 1px solid rgba(0,194,203,0.25);
+      color: var(--teal);
+      border-radius: 2px;
+    }
+
+    /* ── TIMELINE ── */
+    #experience { background: var(--navy-mid); }
+    .timeline {
+      position: relative;
+      padding-left: 2.5rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 8px; bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--teal), var(--steel), transparent);
+    }
+    .tl-item {
+      position: relative;
+      padding-bottom: 3rem;
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot {
+      position: absolute; left: -2.5rem;
+      width: 10px; height: 10px;
+      background: var(--teal);
+      border-radius: 50%;
+      top: 6px;
+      box-shadow: 0 0 10px var(--teal);
+      transform: translateX(-4px);
+    }
+    .tl-dot.dim { background: var(--steel); box-shadow: none; }
+    .tl-period {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.3rem;
+    }
+    .tl-role {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .tl-company {
+      font-size: 0.85rem;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .tl-points { list-style: none; }
+    .tl-points li {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.65;
+      padding: 0.25rem 0 0.25rem 1.1rem;
+      position: relative;
+    }
+    .tl-points li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--teal-dim);
+    }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4rem 3rem;
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative; overflow: hidden;
+    }
+    .contact-card::after {
+      content: '';
+      position: absolute; bottom: -80px; right: -80px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,194,203,0.08) 0%, transparent 70%);
+    }
+    .contact-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .contact-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2.5rem;
+      max-width: 440px;
+      margin-left: auto; margin-right: auto;
+    }
+    .contact-items {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .contact-item {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .contact-item:hover { color: var(--teal); }
+    .contact-item .icon {
+      width: 36px; height: 36px;
+      background: rgba(0,194,203,0.1);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      display: grid; place-items: center;
+      font-size: 1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 5vw;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+      .hero-badges { justify-content: center; }
+      .cta-row { justify-content: center; }
+      .hero-visual { order: -1; }
+      .profile-frame { width: 200px; height: 200px; }
+      .stats-bar { flex-wrap: wrap; }
+      .stat { min-width: 50%; border-right: none; border-bottom: 1px solid var(--border); }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-brand">RS.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hex-grid"></div>
+
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="eyebrow">SAP EAM / WAM Architect</span>
+      <h1>Rajaraman<br /><span>Sunderrajan</span></h1>
+      <p class="subtitle">
+        15+ years of full-lifecycle SAP plant maintenance expertise — from greenfield S/4HANA implementations to large-scale MAXIMO migrations across Oil &amp; Gas, Aerospace, and Energy sectors globally.
+      </p>
+      <div class="hero-badges">
+        <span class="badge">SAP S/4HANA</span>
+        <span class="badge">EAM · WAM</span>
+        <span class="badge">PM · CS · MM</span>
+        <span class="badge">Fiori</span>
+        <span class="badge">Data Migration</span>
+        <span class="badge">Houston, TX</span>
+      </div>
+      <div class="cta-row">
+        <a href="#contact" class="btn btn-primary">Get in Touch</a>
+        <a href="#experience" class="btn btn-outline">View Experience</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="profile-frame">
+        <div class="profile-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+          </svg>
+        </div>
+        <p>Add your profile<br />photo here</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-value">15+</div><div class="stat-label">Years Experience</div></div>
+    <div class="stat"><div class="stat-value">10+</div><div class="stat-label">Global Clients</div></div>
+    <div class="stat"><div class="stat-value">5</div><div class="stat-label">SAP Certifications</div></div>
+    <div class="stat"><div class="stat-value">$1M+</div><div class="stat-label">Cost Savings Delivered</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">Background</div>
+    <h2 class="section-title">About <em>Me</em></h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I am a <strong>SAP EAM Certified professional</strong> with extensive experience implementing, optimizing, and supporting Plant Maintenance and Customer Service solutions across SAP S/4HANA On-Premise, Public Cloud, ECC 6.0, and R/3 platforms.
+        </p>
+        <p>
+          Previously worked with industry-leading clients including <strong>Accenture, Shell Upstream, ADNOC, Suzlon Group, GE Aerospace, FIAT–Chrysler, Pure Storage, and Energy Transfer</strong> — delivering end-to-end solutions across the US, UAE, France, Japan, and India.
+        </p>
+        <p>
+          Highly proficient in configuring key functionalities such as service agreements, refurbishment maintenance, resource-related billing, master/transactional data, work order management, and BOMs. I bridge the gap between business requirements and SAP technology to transform plant operations at scale.
+        </p>
+
+        <div class="skills-group" style="margin-top:2rem;">
+          <div class="skills-group-title">Certifications</div>
+          <ul class="cert-list">
+            <li>SAP Certified – S/4HANA Asset Management EAM (2024)</li>
+            <li>SAP Certified – S/4HANA Cloud Enterprise Asset Management Implementation (2020)</li>
+            <li>SAP Certified – Maintenance &amp; Repair with ERP 6.0 (EHP7)</li>
+            <li>Certified Prince2 Practitioner – AXELOS Global Best Practice (2020)</li>
+            <li>Post Graduate Certificate in IoT &amp; Smart Analytics – IIIT India (2023)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="skills-col">
+        <div class="skills-group">
+          <div class="skills-group-title">Core SAP Modules</div>
+          <div class="skill-tags">
+            <span class="skill-tag">SAP PM</span>
+            <span class="skill-tag">EAM / WAM</span>
+            <span class="skill-tag">SSAM</span>
+            <span class="skill-tag">CS</span>
+            <span class="skill-tag">QM</span>
+            <span class="skill-tag">SD</span>
+            <span class="skill-tag">MM</span>
+            <span class="skill-tag">FICO</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <div class="skills-group-title">SAP Platforms &amp; Tools</div>
+          <div class="skill-tags">
+            <span class="skill-tag">S/4HANA On-Premise</span>
+            <span class="skill-tag">S/4HANA Cloud</span>
+            <span class="skill-tag">ECC 6.0</span>
+            <span class="skill-tag">SAP BTP</span>
+            <span class="skill-tag">Fiori</span>
+            <span class="skill-tag">BODS</span>
+            <span class="skill-tag">Solution Manager</span>
+            <span class="skill-tag">ServiceNow</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <div class="skills-group-title">Methodologies</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Full Lifecycle Implementation</span>
+            <span class="skill-tag">Agile / Scrum</span>
+            <span class="skill-tag">ASAP / PMBOK</span>
+            <span class="skill-tag">ITIL</span>
+            <span class="skill-tag">Data Migration</span>
+            <span class="skill-tag">UAT / SIT</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <div class="skills-group-title">Industries</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Oil &amp; Gas</span>
+            <span class="skill-tag">Aerospace</span>
+            <span class="skill-tag">Energy</span>
+            <span class="skill-tag">Manufacturing</span>
+            <span class="skill-tag">Pharmaceuticals</span>
+            <span class="skill-tag">Dairy / FMCG</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">Key Engagements</div>
+    <h2 class="section-title">Featured <em>Projects</em></h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-client">Energy Transfer · Houston, TX</div>
+        <div class="project-title">USA Compression S/4HANA EAM/WAM Implementation</div>
+        <p class="project-desc">
+          Led SAP S/4HANA EAM/WAM solution activities for large-scale energy infrastructure. Delivered 10 RICEFW objects including Smart Forms and SAC dashboards. Supported Field Service Management (FSM) and Fiori-based mobile workforce enablement.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">S/4HANA 2023</span>
+          <span class="project-tag">WAM</span>
+          <span class="project-tag">Fiori</span>
+          <span class="project-tag">FSM</span>
+          <span class="project-tag">Smart Forms</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-client">GE Aerospace · Singapore</div>
+        <div class="project-title">Aerospace Component Repair with SSAM &amp; MES Integration</div>
+        <p class="project-desc">
+          Designed a comprehensive POC integrating SAP PM/EAM/CS and SSAM with MES software SOLUMINA (IBASE-t) to support in-house blade repair services. Configured Resource Scheduling (RSH) and managed maintenance resource planning for turbine components.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">SSAM</span>
+          <span class="project-tag">CS Integration</span>
+          <span class="project-tag">MES / SOLUMINA</span>
+          <span class="project-tag">Resource Scheduling</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-client">ADNOC · Abu Dhabi, UAE</div>
+        <div class="project-title">MAXIMO to S/4HANA EAM Data Migration</div>
+        <p class="project-desc">
+          Led a complex data migration project for 13 EAM master data objects transitioning from MAXIMO to S/4HANA 2020 using BODS. Conducted mapping workshops, validated pre-load data, and ensured successful production go-live for one of the Middle East's largest O&amp;G operators.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Data Migration</span>
+          <span class="project-tag">BODS</span>
+          <span class="project-tag">MAXIMO</span>
+          <span class="project-tag">S/4HANA</span>
+          <span class="project-tag">Oil &amp; Gas</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-client">Suzlon Group · India</div>
+        <div class="project-title">SAP PM Refurbishment Maintenance — $1M Savings</div>
+        <p class="project-desc">
+          Implemented SAP PM refurbishment maintenance on ECC 6.0, optimizing spare parts management and overseeing in-house and vendor repairs with cost settlement on serialized materials. Achieved up to $1M in documented savings for India's leading wind energy company.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">ECC 6.0</span>
+          <span class="project-tag">Refurbishment</span>
+          <span class="project-tag">Cost Settlement</span>
+          <span class="project-tag">MM Integration</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-client">Pure Storage · USA (AMS)</div>
+        <div class="project-title">SD/SM AMS Support — 95% SLA Resolution Rate</div>
+        <p class="project-desc">
+          Managed approximately 35 interfaces with external systems (SFDC, NetSuite, ServiceNow, Boomi, UPS) via SAP BTP CPI middleware. Maintained 95% incident resolution within SLA and 15% system uptime improvement across a highly customized Dispatch Management solution.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">SAP BTP</span>
+          <span class="project-tag">AMS Support</span>
+          <span class="project-tag">IDoc / IDOC</span>
+          <span class="project-tag">Warranty Mgmt</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-client">Shell Upstream · Accenture</div>
+        <div class="project-title">Shell Upstream SAP PM/EAM &amp; FIAT-Chrysler Integration</div>
+        <p class="project-desc">
+          Delivered functional design for 13 data conversion objects and 10 RICEF objects for Shell Upstream. Executed MAXIMO-to-SAP master data migration for Chrysler. Led UAT, SIT and integration testing across multiple regions.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">SAP PM</span>
+          <span class="project-tag">RICEF</span>
+          <span class="project-tag">Prometheus</span>
+          <span class="project-tag">LSMW</span>
+          <span class="project-tag">UAT</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE TIMELINE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">Career History</div>
+    <h2 class="section-title">Experience <em>Timeline</em></h2>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">April 2025 – February 2026</div>
+        <div class="tl-role">Senior SAP S/4HANA EAM/WAM Architect (Contract)</div>
+        <div class="tl-company">Energy Transfer — Houston, TX</div>
+        <ul class="tl-points">
+          <li>Led S/4HANA EAM/WAM solution activities for USA Compression implementation supporting large-scale energy infrastructure</li>
+          <li>Delivered 10 RICEFW objects including ABAP reports, Smart Forms, and SAC dashboards</li>
+          <li>Supported FSM and Fiori-based mobile workforce enablement with technician applications integrated to S/4HANA</li>
+          <li>Maintained master data governance templates covering 1,000+ business attributes for enterprise asset management</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">May 2023 – March 2025</div>
+        <div class="tl-role">Senior SAP S/4HANA PM/EAM Architect (Permanent)</div>
+        <div class="tl-company">Tech Mahindra — India (Clients: Pure Storage &amp; GE Aerospace)</div>
+        <ul class="tl-points">
+          <li>Achieved 95% incident resolution within SLA for Pure Storage AMS, managing 35+ external interfaces via SAP BTP CPI</li>
+          <li>Designed a POC to integrate SAP PM/EAM/CS and SSAM with MES software SOLUMINA for GE Aerospace component repair</li>
+          <li>Configured Resource Scheduling (RSH) within SAP EAM for maintenance capacity planning and technician assignment</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dim"></div>
+        <div class="tl-period">May 2020 – April 2023</div>
+        <div class="tl-role">Senior SAP EAM Techno-Functional Consultant (Permanent)</div>
+        <div class="tl-company">ADNOC / Prometheus Group — Abu Dhabi, UAE</div>
+        <ul class="tl-points">
+          <li>Led MAXIMO to S/4HANA data migration for ADNOC Offshore covering 13 EAM master data objects using BODS</li>
+          <li>Conducted data mapping workshops, validated pre-load files, and secured sign-off from client stream leads</li>
+          <li>Supported enterprise asset modernization aligning EAM processes with WAM, mobility, and intelligent asset management</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dim"></div>
+        <div class="tl-period">September 2018 – April 2020</div>
+        <div class="tl-role">Senior SAP EAM Consultant (Permanent)</div>
+        <div class="tl-company">RPTech Consulting — India (Clients: SR Thorat Milk, Puniska Pharma)</div>
+        <ul class="tl-points">
+          <li>Implemented S/4HANA 1709, increasing operational efficiency by 25% and reducing maintenance costs by 10%</li>
+          <li>Activated and configured 7 SAP PM Fiori apps with real-time S/4HANA integration via OData</li>
+          <li>Designed 12 RICEFW objects and developed a solar power tracking system integrated with SAP PM functionalities</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dim"></div>
+        <div class="tl-period">January 2017 – July 2018</div>
+        <div class="tl-role">Manager Specialized Services – SAP PM (Permanent)</div>
+        <div class="tl-company">Hitachi Consulting — India (Clients: Avara Pharma, Hitachi Lifts)</div>
+        <ul class="tl-points">
+          <li>Managed SAP ECC 6.0 rollout across two sites (Italy and France) — 100% on-time, on-budget, 4.5/5 satisfaction score</li>
+          <li>Presented onsite in Japan for 3.5 months to build Global Template for rollout to India, Malaysia, Thailand, and Middle East</li>
+          <li>Configured Warranty master and enabled warranty claim processing at equipment and transaction levels</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dim"></div>
+        <div class="tl-period">May 2011 – December 2016</div>
+        <div class="tl-role">Senior SAP PM Systems Consultant (Permanent)</div>
+        <div class="tl-company">Accenture — India (Clients: Shell Upstream, FIAT-Chrysler, NSB Group)</div>
+        <ul class="tl-points">
+          <li>Delivered functional design for 13 data conversion objects and 10 RICEF objects for Shell Upstream PM/EAM solution</li>
+          <li>Led MAXIMO to custom SAP migration for Chrysler using LSMW; managed UAT with business stakeholders</li>
+          <li>Executed Unit, SIT, Integration, Regression, and UAT across multiple large-scale global implementations</li>
+          <li>Worked on Prometheus Print Manager, Order to Task List, Work Order Mass Change, and Graphical Work Order Scheduling</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-card">
+      <h2>Let's Work Together</h2>
+      <p>Available for SAP EAM/WAM architecture, implementation, and consulting engagements. Immediate availability.</p>
+
+      <div class="contact-items">
+        <a href="tel:7133718785" class="contact-item">
+          <span class="icon">📞</span>
+          (713) 371-8785
+        </a>
+        <a href="mailto:raja36.nidhi@gmail.com" class="contact-item">
+          <span class="icon">✉️</span>
+          raja36.nidhi@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/rajaraman-sunderrajan/" target="_blank" class="contact-item">
+          <span class="icon">🔗</span>
+          LinkedIn Profile
+        </a>
+        <span class="contact-item">
+          <span class="icon">📍</span>
+          Houston, TX 77057
+        </span>
+      </div>
+
+      <a href="mailto:raja36.nidhi@gmail.com" class="btn btn-primary">Send a Message</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Rajaraman Sunderrajan — SAP EAM/WAM Architect &nbsp;·&nbsp; Houston, TX</p>
+</footer>
+
+</body>
+</html>
